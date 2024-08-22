@@ -1,5 +1,5 @@
 ---
-title: "Lobster exploration"
+title: "Lobster Exploration"
 author: "Haylee Oyler"
 editor: source
 format: html
@@ -12,18 +12,19 @@ editor_options:
 #### Setup
 
 ```{r}
+rm(list=ls())
 library(here)
 library(tidyverse)
 library(janitor)
 ```
 
-## Data tidying and subsetting
+## Data Tidying and Subsetting
 
 ```{r}
 lobsters <- read_csv(here("data","Lobster_Abundance_All_Years_20210412.csv"), na = c("-99999", "")) %>% 
   clean_names() %>% 
   uncount(count)
-# uncount turns counts back into individual observations. Helps make data tidy. 
+# uncount turns count summations back into individual observations. Helps make data tidy. 
 ```
 
 #### Find counts and mean sizes by site and year
@@ -41,6 +42,7 @@ ggplot(sum_lobs, aes(x = year, y = count)) +
   geom_point(aes(color = count), show.legend = FALSE) + 
   scale_color_gradient(low = "blue", high = "orange") +
   facet_wrap("site") +
+  theme_minimal()+
   labs(title = "Total lobster observations by year across site",
        x = "Year",
        y = "Number of lobsters")
@@ -63,13 +65,14 @@ lobs_2020 <- lobsters %>%
 ggplot(lobs_2020, aes(x = site, y = n, fill = legal)) +
   geom_col(position = "fill") +
   scale_fill_manual(values = (c("pink2","purple3"))) +
+  theme_minimal() +
   labs(title = "Proportion of legal and illegal lobster catch by site", 
        x = "Site", 
        y = "Proportion")
 ```
 IVEE and NAPL had the highest proportion of legal catches. Most likely because these are the two sites closest to an MPA.
 
-## Random lobster Wrangling
+## Random Lobster Wrangling
 
 ```{r}
 # Filter ----
